@@ -1,0 +1,38 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy to server
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Decrypt config file
+        run: ./.github/scripts/decrypt-secret.sh
+        env:
+          SECRET_PASSPHRASE: ${{ secrets.CONFIG_ENCRYPTION_KEY }}
+          SECRET_NAME: 'config.yml'
+      - name: Upgrade ansible if it is to old
+        run: pip3 install --user "ansible>=2.9.10"
+        env:
+          ANSIBLE_SKIP_CONFLICT_CHECK: 1 # We are installing as user and existing installation is on system, so we can ignore it
+      - name: Install ansible docker collection
+        run: ansible-galaxy collection install community.docker
+      - name: Run ansible
+        uses: dawidd6/action-ansible-playbook@v2.2.0
+        with:
+          playbook: 'playbook.yml'
+          directory: ./
+          key: ${{ secrets.SSH_KEY_SERVER_IUMS }}
+          inventory: |
+            [process_repository]
+            ${{ secrets.IUMS_SERVER_IP }} ansible_user=${{ secrets.IUMS_USER }} ansible_python_interpreter=python3
+
+            [selfhealing]
+            ${{ secrets.IUMS_SERVER_IP }} ansible_user=${{ secrets.IUMS_USER }} ansible_python_interpreter=python3
