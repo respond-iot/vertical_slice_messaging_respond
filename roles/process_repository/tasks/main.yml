@@ -14,6 +14,7 @@
     name: mariadb
     image: mariadb:latest
     restart_policy: always
+    network_mode: default
     networks:
       - name: mariadb
     env:
@@ -42,6 +43,7 @@
     name: respond-process-repository
     image: respond-iot/process-repository:latest
     restart_policy: always
+    network_mode: default
     networks:
       - name: mariadb
       - name: bridge
