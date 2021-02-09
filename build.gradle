@@ -23,3 +23,15 @@ p2AsMaven {
         iu 'edu.kit.ipd.sdq.kamp4aps'
     }
 }
+
+allprojects {
+    repositories {
+        maven {
+            url rootProject.file('build/p2asmaven/maven')
+            metadataSources {
+                mavenPom()
+                artifact()
+            }
+        }
+    }
+}

@@ -9,13 +9,6 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven {
-        url rootProject.file('build/p2asmaven/maven')
-        metadataSources {
-            mavenPom()
-            artifact()
-        }
-    }
 }
 
 dependencies {
