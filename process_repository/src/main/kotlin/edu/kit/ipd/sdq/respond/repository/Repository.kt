@@ -46,6 +46,7 @@ class HibernateRepository(private val sessionFactory: EntityManagerFactory) : Re
         query.setParameter("plant", plant.id)
         query.setParameter("id", processId)
         query.executeUpdate()
+        entityManager.transaction.commit()
         entityManager.close()
     }
 
@@ -63,6 +64,7 @@ class HibernateRepository(private val sessionFactory: EntityManagerFactory) : Re
         val query = entityManager.createQuery("delete from Process where plant_id = :plant")
         query.setParameter("plant", plant.id)
         query.executeUpdate()
+        entityManager.transaction.commit()
         entityManager.close()
     }
 
