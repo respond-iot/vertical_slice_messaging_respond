@@ -114,7 +114,7 @@ class MqttRepositoryInterface(private val client: MqttClient, private val reposi
                 "update/([^/]+)" { updateProcess(it[0].toUUIDOrNull(), mqttMessage, plant) }
                 "process/get/([^/]+)" { checkProcessCorrectness(it[0].toUUIDOrNull(), mqttMessage, plant) }
                 default {
-                    print("Unknown endpoint: $topic")
+                    println("Unknown endpoint: $topic")
                 }
             }
 
