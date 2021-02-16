@@ -13,7 +13,7 @@ class ClientCommandLineArguments(parser: ArgParser) {
     val broker by parser.storing("--broker", "-b", help = "Url of the mqtt broker to use").default("tcp://localhost")
     val plant by parser.storing("--plant", "-q", help = "Path of the plant to use").default("default")
     val process by parser.storing("--process", "-p", help = "A file representing a process").default { null }
-    val id by parser.storing("--id", "-i", help = "The id of the process to operate on") { toIntOrNull() }.default { null }
+    val id by parser.storing("--id", "-i", help = "The id of the process to operate on").default { null }
 }
 
 enum class Modes(val longFlag: String, val shortFlag: String) {
